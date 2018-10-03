@@ -36,6 +36,116 @@ type InboxItem struct {
 		URLExpireAtSecs      int    `json:"url_expire_at_secs"`
 		OrganicTrackingToken string `json:"organic_tracking_token"`
 	}
+
+	Media_share struct {
+		TakenAt                      int           `json:"taken_at"`
+		Pk                           int64         `json:"pk"`
+		ID                           string        `json:"id"`
+		DeviceTimestamp              int64         `json:"device_timestamp"`
+		MediaType                    int           `json:"media_type"`
+		Code                         string        `json:"code"`
+		ClientCacheKey               string        `json:"client_cache_key"`
+		FilterType                   int           `json:"filter_type"`
+		CommentLikesEnabled          bool          `json:"comment_likes_enabled"`
+		CommentThreadingEnabled      bool          `json:"comment_threading_enabled"`
+		HasMoreComments              bool          `json:"has_more_comments"`
+		MaxNumVisiblePreviewComments int           `json:"max_num_visible_preview_comments"`
+		PreviewComments              []interface{} `json:"preview_comments"`
+		CanViewMorePreviewComments   bool          `json:"can_view_more_preview_comments"`
+		CommentCount                 int           `json:"comment_count"`
+		ImageVersions2               struct {
+			Candidates []struct {
+				Width  int    `json:"width"`
+				Height int    `json:"height"`
+				URL    string `json:"url"`
+			} `json:"candidates"`
+		} `json:"image_versions2"`
+		OriginalWidth     int    `json:"original_width"`
+		OriginalHeight    int    `json:"original_height"`
+		IsDashEligible    int    `json:"is_dash_eligible"`
+		VideoDashManifest string `json:"video_dash_manifest"`
+		NumberOfQualities int    `json:"number_of_qualities"`
+		VideoVersions     []struct {
+			Type   int    `json:"type"`
+			Width  int    `json:"width"`
+			Height int    `json:"height"`
+			URL    string `json:"url"`
+			ID     string `json:"id"`
+		} `json:"video_versions"`
+		HasAudio      bool    `json:"has_audio"`
+		VideoDuration float64 `json:"video_duration"`
+		Location      struct {
+			Pk               int     `json:"pk"`
+			Name             string  `json:"name"`
+			Address          string  `json:"address"`
+			City             string  `json:"city"`
+			ShortName        string  `json:"short_name"`
+			Lng              float64 `json:"lng"`
+			Lat              float64 `json:"lat"`
+			ExternalSource   string  `json:"external_source"`
+			FacebookPlacesID int64   `json:"facebook_places_id"`
+		} `json:"location"`
+		ViewCount float64 `json:"view_count"`
+		Lat       float64 `json:"lat"`
+		Lng       float64 `json:"lng"`
+		User      struct {
+			Pk               int64  `json:"pk"`
+			Username         string `json:"username"`
+			FullName         string `json:"full_name"`
+			IsPrivate        bool   `json:"is_private"`
+			ProfilePicURL    string `json:"profile_pic_url"`
+			ProfilePicID     string `json:"profile_pic_id"`
+			FriendshipStatus struct {
+				Following       bool `json:"following"`
+				OutgoingRequest bool `json:"outgoing_request"`
+				IsBestie        bool `json:"is_bestie"`
+			} `json:"friendship_status"`
+			HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
+			ReelAutoArchive            string `json:"reel_auto_archive"`
+			IsUnpublished              bool   `json:"is_unpublished"`
+			IsFavorite                 bool   `json:"is_favorite"`
+			LatestReelMedia            int    `json:"latest_reel_media"`
+		} `json:"user"`
+		CanViewerReshare bool `json:"can_viewer_reshare"`
+		Caption          struct {
+			Pk           int64  `json:"pk"`
+			UserID       int64  `json:"user_id"`
+			Text         string `json:"text"`
+			Type         int    `json:"type"`
+			CreatedAt    int    `json:"created_at"`
+			CreatedAtUtc int    `json:"created_at_utc"`
+			ContentType  string `json:"content_type"`
+			Status       string `json:"status"`
+			BitFlags     int    `json:"bit_flags"`
+			User         struct {
+				Pk               int64  `json:"pk"`
+				Username         string `json:"username"`
+				FullName         string `json:"full_name"`
+				IsPrivate        bool   `json:"is_private"`
+				ProfilePicURL    string `json:"profile_pic_url"`
+				ProfilePicID     string `json:"profile_pic_id"`
+				FriendshipStatus struct {
+					Following       bool `json:"following"`
+					OutgoingRequest bool `json:"outgoing_request"`
+					IsBestie        bool `json:"is_bestie"`
+				} `json:"friendship_status"`
+				HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
+				ReelAutoArchive            string `json:"reel_auto_archive"`
+				IsUnpublished              bool   `json:"is_unpublished"`
+				IsFavorite                 bool   `json:"is_favorite"`
+				LatestReelMedia            int    `json:"latest_reel_media"`
+			} `json:"user"`
+			DidReportAsSpam bool  `json:"did_report_as_spam"`
+			MediaID         int64 `json:"media_id"`
+			HasTranslation  bool  `json:"has_translation"`
+		} `json:"caption"`
+		CaptionIsEdited      bool   `json:"caption_is_edited"`
+		LikeCount            int    `json:"like_count"`
+		HasLiked             bool   `json:"has_liked"`
+		PhotoOfYou           bool   `json:"photo_of_you"`
+		CanViewerSave        bool   `json:"can_viewer_save"`
+		OrganicTrackingToken string `json:"organic_tracking_token"`
+	}
 }
 
 // Inbox is the direct message inbox.
@@ -55,17 +165,31 @@ type Inbox struct {
 	UnseenCountTs       int64  `json:"unseen_count_ts"`
 	BlendedInboxEnabled bool   `json:"blended_inbox_enabled"`
 	// this fields are copied from response
-	SeqID                int   `json:"seq_id"`
-	PendingRequestsTotal int   `json:"pending_requests_total"`
-	SnapshotAtMs         int64 `json:"snapshot_at_ms"`
+	SeqID                int               `json:"seq_id"`
+	PendingRequestsTotal int               `json:"pending_requests_total"`
+	SnapshotAtMs         int64             `json:"snapshot_at_ms"`
+	MostRecentInviter    MostRecentInviter `json:most_recent_inviter`
+}
+
+// MostRecentInviter custom added type
+type MostRecentInviter struct {
+	Pk                         int64  `json:"pk"`
+	FullName                   string `json:"full_name"`
+	ReelAutoArchive            string `json:"reel_auto_archive"`
+	IsVerified                 bool   `json:"is_verified"`
+	IsPrivate                  bool   `json:"is_private"`
+	ProfilePicURL              string `json:"profile_pic_url"`
+	HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
+	Username                   string `json:"username"`
 }
 
 type inboxResp struct {
-	Inbox                Inbox  `json:"inbox"`
-	SeqID                int    `json:"seq_id"`
-	PendingRequestsTotal int    `json:"pending_requests_total"`
-	SnapshotAtMs         int64  `json:"snapshot_at_ms"`
-	Status               string `json:"status"`
+	Inbox                Inbox             `json:"inbox"`
+	SeqID                int               `json:"seq_id"`
+	PendingRequestsTotal int               `json:"pending_requests_total"`
+	SnapshotAtMs         int64             `json:"snapshot_at_ms"`
+	Status               string            `json:"status"`
+	MostRecentInviter    MostRecentInviter `json:"most_recent_inviter"`
 }
 
 func newInbox(inst *Instagram) *Inbox {
@@ -89,12 +213,16 @@ func (inbox *Inbox) Sync() error {
 	if err == nil {
 		resp := inboxResp{}
 		err = json.Unmarshal(body, &resp)
+		// fmt.Println(string(body))
+		// os.Exit(1)
 		if err == nil {
+
 			*inbox = resp.Inbox
 			inbox.inst = insta
-			inbox.SeqID = resp.Inbox.SeqID
-			inbox.PendingRequestsTotal = resp.Inbox.PendingRequestsTotal
-			inbox.SnapshotAtMs = resp.Inbox.SnapshotAtMs
+			inbox.SeqID = resp.SeqID
+			inbox.PendingRequestsTotal = resp.PendingRequestsTotal
+			inbox.SnapshotAtMs = resp.SnapshotAtMs
+			inbox.MostRecentInviter = resp.MostRecentInviter
 			for i := range inbox.Conversations {
 				inbox.Conversations[i].inst = insta
 				inbox.Conversations[i].firstRun = true
@@ -218,7 +346,12 @@ type Conversation struct {
 	NewestCursor      string `json:"newest_cursor"`
 	OldestCursor      string `json:"oldest_cursor"`
 	IsSpam            bool   `json:"is_spam"`
-	LastPermanentItem Item   `json:"last_permanent_item"`
+	LastPermanentItem struct {
+		ItemID    string `json:"item_id"`
+		UserID    int64  `json:"user_id"`
+		Timestamp int64  `json:"timestamp"`
+		ItemType  string `json:"item_type"`
+	} `json:"last_permanent_item"`
 }
 
 func (c Conversation) Error() error {
